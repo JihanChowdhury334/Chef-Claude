@@ -1,16 +1,20 @@
 import React from "react"
 import IngredientsList from "./components/IngredientsList"
-import ClaudeRecipe from "./components/ClaudeRecipe"
-import { getRecipeFromChefClaude, getRecipeFromMistral } from "./ai"
+import ClaudeRecipe from "./components/ClaudeRecipe" // can rename later if you want
+import { getRecipeFromMistral } from "./ai" // 👈 only import Mistral
 
 export default function Main() {
-    const [ingredients, setIngredients] = React.useState(
-        ["chicken", "all the main spices", "corn", "heavy cream", "pasta"]
-    )
+    const [ingredients, setIngredients] = React.useState([
+        "chicken", 
+        "all the main spices", 
+        "corn", 
+        "heavy cream", 
+        "pasta"
+    ])
     const [recipe, setRecipe] = React.useState("")
 
     async function getRecipe() {
-        const recipeMarkdown = await getRecipeFromChefClaude(ingredients)
+        const recipeMarkdown = await getRecipeFromMistral(ingredients) // 👈 call Mistral only
         setRecipe(recipeMarkdown)
     }
 
@@ -38,7 +42,8 @@ export default function Main() {
                 />
             }
 
-            {recipe && <ClaudeRecipe recipe={recipe} />}
+            {recipe && <ClaudeRecipe recipe={recipe} />} 
+            {/* You can rename this component to AIRecipe later */}
         </main>
     )
 }
