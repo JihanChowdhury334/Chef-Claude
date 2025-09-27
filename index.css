@@ -115,3 +115,18 @@ ul.ingredients-list > li {
 .suggested-recipe-container ul li, .suggested-recipe-container ol li {
     margin-bottom: 8px;
 }
+
+.spinner {
+  border: 4px solid #f3f3f3;      /* light gray base circle */
+  border-top: 4px solid #3498db;  /* blue arc that spins */
+  border-radius: 50%;             /* makes it round */
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;              /* center horizontally */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
