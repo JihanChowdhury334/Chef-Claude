@@ -3,7 +3,7 @@
 Chef Claude is a simple AI-powered recipe generator built with **React + Vite**.  
 You enter the ingredients you have on hand, and Chef Claude suggests a recipe using **Anthropic Claude** or **Hugging Face Mistral**.  
 Recipes are displayed in clean, readable markdown for an easy cooking experience.
-
+  *(⚠️ may take a few seconds to generate while the model processes your request)*  
 ---
 
 ## 📸 Screenshot
@@ -75,5 +75,6 @@ images/              → Logo & screenshot assets
 3. Once you have 4+ ingredients, the **Get a recipe** button appears.  
 4. Clicking it sends your list to Claude or Mistral.  
 5. The AI responds with a recipe, displayed in markdown format.
+
 
 
