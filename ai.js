@@ -1,25 +1,32 @@
-import { HfInference } from "@huggingface/inference"
-
 const SYSTEM_PROMPT = `
 You are an assistant that receives a list of ingredients that a user has and suggests a recipe they could make with some or all of those ingredients. You don't need to use every ingredient they mention in your recipe. The recipe can include additional ingredients they didn't mention, but try not to include too many extra ingredients. Format your response in markdown to make it easier to render to a web page
 `
 
-// Hugging Face inference (Mistral only)
-const hf = new HfInference(import.meta.env.VITE_HF_API_KEY)
-
+// Call Netlify function instead of Hugging Face directly
 export async function getRecipeFromMistral(ingredientsArr) {
-    const ingredientsString = ingredientsArr.join(", ")
-    try {
-        const response = await hf.chatCompletion({
-            model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
-            messages: [
-                { role: "system", content: SYSTEM_PROMPT },
-                { role: "user", content: `I have ${ingredientsString}. Please give me a recipe you'd recommend I make!` },
-            ],
-            max_tokens: 1024,
-        })
-        return response.choices[0].message.content
-    } catch (err) {
-        console.error(err.message)
-    }
+  const ingredientsString = ingredientsArr.join(", ")
+
+  try {
+    const res = await fetch("/.netlify/functions/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          {
+            role: "user",
+            content: `I have ${ingredientsString}. Please give me a recipe you'd recommend I make!`
+          },
+        ],
+        max_tokens: 1024,
+      }),
+    })
+
+    const data = await res.json()
+    return data.choices?.[0]?.message?.content || "No recipe found."
+  } catch (err) {
+    console.error("Error fetching recipe:", err.message)
+    return "Error fetching recipe."
+  }
 }
