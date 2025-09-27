@@ -7,7 +7,7 @@ Recipes are displayed in clean, readable markdown for an easy cooking experience
 ---
 
 ## 📸 Screenshot
-
+![Chef Claude Screenshot](./images/screenshot2.PNG)
 ![Chef Claude Screenshot](./images/screenshot.PNG)
 
 ---
@@ -75,6 +75,7 @@ images/              → Logo & screenshot assets
 3. Once you have 4+ ingredients, the **Get a recipe** button appears.  
 4. Clicking it sends your list to Claude or Mistral.  
 5. The AI responds with a recipe, displayed in markdown format.
+
 
 
 
