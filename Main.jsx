@@ -1,20 +1,27 @@
 import React from "react"
-import IngredientsList from "./components/IngredientsList"
-import ClaudeRecipe from "./components/ClaudeRecipe" // can rename later if you want
-import { getRecipeFromMistral } from "./ai" // 👈 only import Mistral
+import IngredientsList from "./IngredientsList"
+import AIRecipe from "./AIRecipe"
+import { getRecipeFromMistral } from "../ai"
 
 export default function Main() {
-    const [ingredients, setIngredients] = React.useState([
-        "chicken", 
-        "all the main spices", 
-        "corn", 
-        "heavy cream", 
-        "pasta"
-    ])
+    const [ingredients, setIngredients] = React.useState(
+        ["chicken", "all the main spices", "corn", "heavy cream", "pasta"]
+    )
     const [recipe, setRecipe] = React.useState("")
+    const recipeSection = React.useRef(null)
+    
+    React.useEffect(() => {
+        if (recipe !== "" && recipeSection.current !== null) {
+            const yCoord = recipeSection.current.getBoundingClientRect().top + window.scrollY
+            window.scroll({
+                top: yCoord,
+                behavior: "smooth"
+            })
+        }
+    }, [recipe])
 
     async function getRecipe() {
-        const recipeMarkdown = await getRecipeFromMistral(ingredients) // 👈 call Mistral only
+        const recipeMarkdown = await getRecipeFromMistral(ingredients)
         setRecipe(recipeMarkdown)
     }
 
@@ -22,7 +29,7 @@ export default function Main() {
         const newIngredient = formData.get("ingredient")
         setIngredients(prevIngredients => [...prevIngredients, newIngredient])
     }
-
+    
     return (
         <main>
             <form action={addIngredient} className="add-ingredient-form">
@@ -37,13 +44,13 @@ export default function Main() {
 
             {ingredients.length > 0 &&
                 <IngredientsList
+                    ref={recipeSection}
                     ingredients={ingredients}
                     getRecipe={getRecipe}
                 />
             }
 
-            {recipe && <ClaudeRecipe recipe={recipe} />} 
-            {/* You can rename this component to AIRecipe later */}
+            {recipe && <AIRecipe recipe={recipe} />}
         </main>
     )
 }
