@@ -1,10 +1,10 @@
-import chefIcon from "../images/chef-claude-icon.png" // you can rename this image later
+import chefClaudeLogo from "./images/chef-claude-icon.png"
 
 export default function Header() {
     return (
         <header>
-            <img src={chefIcon} alt="AI Chef logo"/>
-            <h1>AI Recipe Generator</h1>
+            <img src={chefClaudeLogo}/>
+            <h1>Chef Claude</h1>
         </header>
     )
 }
