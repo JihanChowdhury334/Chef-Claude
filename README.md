@@ -56,7 +56,6 @@ images/              → Logo & screenshot assets
 
 3. Create a `.env` file in the root folder with your API keys:
    ```env
-   ANTHROPIC_API_KEY=your_anthropic_key_here
    HF_ACCESS_TOKEN=your_huggingface_key_here
    ```
    ⚠️ Do **not** commit this file to GitHub.
@@ -76,3 +75,4 @@ images/              → Logo & screenshot assets
 3. Once you have 4+ ingredients, the **Get a recipe** button appears.  
 4. Clicking it sends your list to Claude or Mistral.  
 5. The AI responds with a recipe, displayed in markdown format.
+
