@@ -8,7 +8,10 @@ export default function Main() {
         []
     )
     const [recipe, setRecipe] = React.useState("")
+    const [loading, setLoading] = React.useState(false)
+
     const recipeSection = React.useRef(null)
+    
     
     React.useEffect(() => {
         if (recipe !== "" && recipeSection.current !== null) {
@@ -20,12 +23,15 @@ export default function Main() {
         }
     }, [recipe])
 
-    async function getRecipe() {
-        // ✅ FIX: call Mistral instead of Claude
-        console.log("Getting recipe from Mistral...")
-        const recipeMarkdown = await getRecipeFromMistral(ingredients)
-        setRecipe(recipeMarkdown)
-    }
+async function getRecipe() {
+  console.log("Getting recipe from Mistral...")
+  setLoading(true)        // 👈 show spinner
+  setRecipe("")           // clear old recipe
+  const recipeMarkdown = await getRecipeFromMistral(ingredients)
+  setRecipe(recipeMarkdown)
+  setLoading(false)       // 👈 hide spinner
+}
+
 
     function addIngredient(formData) {
         const newIngredient = formData.get("ingredient")
@@ -52,7 +58,16 @@ export default function Main() {
                 />
             }
 
-            {recipe && <ClaudeRecipe recipe={recipe} />}
+            {loading && (
+  <div style={{ textAlign: "center" }}>
+    <div className="spinner"></div>
+    <p>🍳 Cooking up a recipe...</p>
+  </div>
+)}
+
+            
+            {!loading && recipe && <ClaudeRecipe recipe={recipe} />}
+
         </main>
     )
 }
